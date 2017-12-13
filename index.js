@@ -2,41 +2,37 @@
 
 // Formel: bmi = körpermasse / (körperhöhe in meter) ^ 2
 
-window.addEventListener("load", function() {
-
-    let heightObj = document.getElementById("height");
-    let weightObj = document.getElementById("weight");
+jQuery(document).ready(function($){
+    let heightObj = $("#height");
+    let weightObj = $("#weight");
 
     let calculateBmi = function() {
-        let height = parseFloat(heightObj.value.replace(",", "."));
-        let weight = parseFloat(weightObj.value);
-
+        let height = parseFloat($(heightObj).val().replace(",", "."));
+        let weight = parseFloat($(weightObj).val());
+        
         let bmi = (weight / (height * height));
-
         let result = Math.round(bmi * 10) / 10;
 
-        let resultObj = document.getElementById("result");
-        resultObj.innerText = ("" + result).replace(".", ",");
+        let resultObj = $("#result").text(("" + result).replace(".",","));
 
-        document.getElementById("weight-below").style.display="none";
-        document.getElementById("weight-above").style.display="none";
-        document.getElementById("weight-normal").style.display="none";
+        $("#weight-below, #weight-above, #weight-normal").hide();
+
 
         if(bmi < 18.5) {
-            document.getElementById("weight-below").style.display="block";
+            $("#weight-below").show()
         } else if (bmi > 18.5 && bmi < 25) {
-            document.getElementById("weight-normal").style.display="block";
+            $("#weight-normal").show();
         } else if(!isNaN(bmi)){
-            document.getElementById("weight-above").style.display="block";
+            $("eight-above").show();
         }
-    };
-    /*
-    let button = document.getElementById("calculate");
-    button.addEventListener("click", calculateBmi);
-    */
+    }
 
-    heightObj.addEventListener("change", calculateBmi);
-    weightObj.addEventListener("change", calculateBmi);
-    heightObj.addEventListener("keyup", calculateBmi);
-    weightObj.addEventListener("keyup", calculateBmi);
+    heightObj.change(calculateBmi);
+    weightObj.change(calculateBmi);
+    heightObj.keyup(calculateBmi);
+    weightObj.keyup(calculateBmi);
 });
+
+
+
+
